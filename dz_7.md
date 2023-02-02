@@ -6,8 +6,8 @@ def warp(foo):
         try:
          a=float(a)
          b=float(b)
-        except Exception :
-            print("Type Error")
+        except Exception as ex :
+            print(ex)
         else:
          print("__________________________________________")
          foo( a, b)
