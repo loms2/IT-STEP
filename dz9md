@@ -1,0 +1,29 @@
+import requests
+from bs4 import BeautifulSoup
+Cod = ""
+Val = ""
+a = float(input("Квількість гривень = "))
+v = str(input("Ведіть Літерний код валюти(Наприклад USD) або ALL:"))
+
+url = "https://bank.gov.ua/ua/markets/exchangerates"
+page = requests.get(url)
+
+soup = BeautifulSoup(page.text,"html.parser")
+td_list = soup.find_all("td")
+
+for td in td_list:
+    if td["data-label"] == "Код літерний":
+        Cod = td.text
+    if td["data-label"] == "Назва валюти":
+        Val = td.text
+    if td["data-label"] == "Офіційний курс":
+        td = td.text
+        td = float(td.replace(",","."))
+        if v == Cod or v == "ALL":
+            print(Val,a/td, Cod)
+            if int(a/td) == 0:
+                print(f"Заокруглені значення 1 {Cod} за {int(td)}грн")
+            else:
+                print(f"Заокруглені значення {int(a/td)} {Cod} за {int((a/td)*td)}грн")
+
+
